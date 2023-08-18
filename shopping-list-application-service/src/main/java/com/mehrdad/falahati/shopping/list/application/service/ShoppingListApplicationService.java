@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.UUID;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -34,8 +36,8 @@ public class ShoppingListApplicationService {
     }
 
     @Transactional
-    public ShoppingListIdResponse addItemToTheShoppingList(@Valid CreateShoppingItemCommand shoppingItemCommand){
-        ShoppingList shoppingList = shoppingListRepository.findByIdOrFail(new ShoppingListId(shoppingItemCommand.shoppingListId()));
+    public ShoppingListIdResponse addItemToTheShoppingList(UUID shoppingListId, @Valid CreateShoppingItemCommand shoppingItemCommand){
+        ShoppingList shoppingList = shoppingListRepository.findByIdOrFail(new ShoppingListId(shoppingListId));
         ShoppingItem shoppingItem = shoppingListDataMapper.createShoppingItemCommandToShoppingItem(shoppingItemCommand);
         shoppingList.addItem(shoppingItem);
         shoppingListRepository.save(shoppingList);

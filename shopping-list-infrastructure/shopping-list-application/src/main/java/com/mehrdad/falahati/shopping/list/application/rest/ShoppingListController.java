@@ -24,24 +24,14 @@ public class ShoppingListController {
     private final ShoppingListApplicationService shoppingListService;
 
     @PostMapping("/")
-    public ResponseEntity<?> createShoppingList(UriComponentsBuilder uriComponentsBuilder) {
-        UriComponents uriComponents = uriComponentsBuilder
-                .path(BASE_URI + "/{shoppingListId}")
-                .buildAndExpand(
-                        shoppingListService.createShoppingList()
-                );
-
-        return ResponseEntity.created(uriComponents.toUri()).build();
+    public ResponseEntity<ShoppingListIdResponse> createShoppingList() {
+        return ResponseEntity.ok(shoppingListService.createShoppingList());
     }
 
     @PutMapping("/{shoppingListId}/items")
-    public ResponseEntity<?> addItemToTheShoppingList(UriComponentsBuilder uriComponentsBuilder, @RequestBody CreateShoppingItemCommand command) {
-        UriComponents uriComponents = uriComponentsBuilder
-                .path(BASE_URI + "/" + command.shoppingListId() + "/items/{itemId}")
-                .buildAndExpand(
-                        shoppingListService.addItemToTheShoppingList(command)
-                );
-        return ResponseEntity.created(uriComponents.toUri()).build();
+    public ResponseEntity<ShoppingListIdResponse> addItemToTheShoppingList(@PathVariable UUID shoppingListId,
+                                                      @RequestBody CreateShoppingItemCommand command) {
+        return ResponseEntity.ok(shoppingListService.addItemToTheShoppingList(shoppingListId, command));
     }
 
     @GetMapping("/{shoppingListId}/total-price")
