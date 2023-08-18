@@ -12,7 +12,15 @@ import java.util.UUID;
 public class ShoppingList extends AggregateRoot<ShoppingListId> {
     private static final double SUBTOTAL_PRICE_BOUNDARY_FOR_FREE_SHIPPING = 100;
     protected static final double STANDARD_SHIPPING_COSTS = 10;
-    private final Set<ShoppingItem> shoppingItems = new LinkedHashSet<>();
+    private Set<ShoppingItem> shoppingItems = new LinkedHashSet<>();
+
+    public void setShoppingItems(Set<ShoppingItem> shoppingItems) {
+        this.shoppingItems = shoppingItems;
+    }
+
+    public Set<ShoppingItem> getShoppingItems() {
+        return shoppingItems;
+    }
 
     public void initialShoppingList() {
         setId(new ShoppingListId(UUID.randomUUID()));
