@@ -7,14 +7,15 @@ import com.mehrdad.falahati.shopping.list.domain.valueobject.ShoppingListId;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.UUID;
 
 public class ShoppingList extends AggregateRoot<ShoppingListId> {
     private static final double SUBTOTAL_PRICE_BOUNDARY_FOR_FREE_SHIPPING = 100;
     protected static final double STANDARD_SHIPPING_COSTS = 10;
     private final Set<ShoppingItem> shoppingItems = new LinkedHashSet<>();
 
-    public static ShoppingList of(){
-        return new ShoppingList();
+    public void initialShoppingList() {
+        setId(new ShoppingListId(UUID.randomUUID()));
     }
 
     public void addItem(ShoppingItem shoppingItem) {
